@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timestamp DES</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <h1>Timestamp untuk tugas DES</h1>
+
+
+    <div class="record">
+        <div class="server">
+            <div class="container">
+                <div class="nth-customer">
+                    <span>customer 1</span>
+                </div>
+                <div class="action">
+                    <button onclick="setTimestamp()" id="datang">Customer tiba</button>
+                    <button onclick="setTimeInterval()" id="selesai" disabled>Selesai dilayani</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="data">
+            <table id="data-record">
+                <tr>
+                    <th>Customer</th>
+                    <th>Waktu Kedatangan ke Server</th>
+                    <th>Lama Pelayanan</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+<script>
+    function getTimestamp() {
+        var now = new Date();
+        return (now.getHours() + ':' + ((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes())) + ':'
+            + ((now.getSeconds() < 10) ? ("0" + now.getSeconds()) : (now.getSeconds())));
+    }
+
+    function getTimeInterval(a) {
+        var table = document.getElementById('data-record');
+        var rowCount = table.rows.length;
+        var cellCount = table.rows[0].cells.length;
+        var rowTarget = rowCount - 1;
+        var cellTarget = cellCount - 2;
+
+        var timeStart = table.rows[rowTarget].cells[cellTarget].innerHTML;
+
+        console.log("a: " + a + " start: ", timeStart);
+        var hour = parseInt(a.slice(0, a.indexOf(':'))) - parseInt(timeStart.slice(0, timeStart.indexOf(':')));
+        console.log(hour);
+        a = a.slice(a.indexOf(':') + 1);
+        timeStart = timeStart.slice(timeStart.indexOf(':') + 1);
+        var minute = parseInt(a.slice(0, a.indexOf(':'))) - parseInt(timeStart.slice(0, timeStart.indexOf(':')));
+        console.log("minute: " + minute);
+        var second = parseInt(a.slice(a.indexOf(':') + 1)) - parseInt(timeStart.slice(timeStart.indexOf(':') + 1));
+        console.log("second: " + second);
+
+        return (hour * 60 + minute) + " menit " + second + " detik";
+    }
+
+    function setTimestamp() {
+        var table = document.getElementById('data-record');
+        var rowCount = table.rows.length;
+        var cellCount = table.rows[0].cells.length;
+        var time = getTimestamp();
+        var row = table.insertRow(rowCount);
+        for (var i = 0; i < cellCount; i++) {
+            var cell = row.insertCell(i);
+            switch (i) {
+                case 0:
+                    cell.innerHTML = '<td>' + rowCount + '</td>';
+                    break;
+                case 1:
+                    cell.innerHTML = '<td>' + time + '</td>';
+                    break;
+                case 2:
+                    cell.innerHTML = '<td></td>';
+                    break
+                default:
+                    break;
+            }
+
+        }
+        changeDisabledButton();
+        table.scrollIntoView(false);
+    }
+
+    function setTimeInterval() {
+        var table = document.getElementById('data-record');
+        var rowCount = table.rows.length;
+        var cellCount = table.rows[0].cells.length;
+        var rowTarget = rowCount - 1;
+        var cellTarget = cellCount - 1;
+
+        var interval = getTimeInterval(getTimestamp());
+
+        table.rows[rowTarget].cells[cellTarget].innerHTML = '<td>' + interval + '</td>';
+        changeDisabledButton();
+        table.scrollIntoView(false);
+    }
+
+    function changeDisabledButton() {
+        document.getElementById("datang").disabled = !(document.getElementById("datang").disabled);
+        if (document.getElementById("datang").disabled == true) {
+            document.getElementById("selesai").disabled = false;
+        } else {
+            document.getElementById("selesai").disabled = true;
+        }
+
+    }
+</script>
+
+</html>
