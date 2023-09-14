@@ -50,18 +50,28 @@
         var cellCount = table.rows[0].cells.length;
         var rowTarget = rowCount - 1;
         var cellTarget = cellCount - 2;
+        var second, minute, hour;
 
         var timeStart = table.rows[rowTarget].cells[cellTarget].innerHTML;
 
         console.log("a: " + a + " start: ", timeStart);
-        var hour = (parseInt(a.slice(0, a.indexOf(':'))) - parseInt(timeStart.slice(0, timeStart.indexOf(':'))))%24;
+        var hourDifference = (parseInt(a.slice(0, a.indexOf(':'))) - parseInt(timeStart.slice(0, timeStart.indexOf(':'))))%24;
         console.log(hour);
         a = a.slice(a.indexOf(':') + 1);
         timeStart = timeStart.slice(timeStart.indexOf(':') + 1);
-        var minute = (parseInt(a.slice(0, a.indexOf(':'))) - parseInt(timeStart.slice(0, timeStart.indexOf(':'))))%60;
+        var minuteDifference = (parseInt(a.slice(0, a.indexOf(':'))) - parseInt(timeStart.slice(0, timeStart.indexOf(':'))));
         console.log("minute: " + minute);
-        var second = (parseInt(a.slice(a.indexOf(':') + 1)) - parseInt(timeStart.slice(timeStart.indexOf(':') + 1)))%60;
+        var secondDifference = (parseInt(a.slice(a.indexOf(':') + 1)) - parseInt(timeStart.slice(timeStart.indexOf(':') + 1)));
         console.log("second: " + second);
+
+        if (minuteDifference < 0) {
+            minute = 60 + minuteDifference;
+            hour = hourDifference - 1;
+            if (secondDifference < 0) {
+                second = 60 + secondDifference;
+                minute -= 1
+            }
+        }
 
         return (hour * 60 + minute) + " menit " + second + " detik";
     }
