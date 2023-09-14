@@ -64,14 +64,21 @@
         var secondDifference = (parseInt(a.slice(a.indexOf(':') + 1)) - parseInt(timeStart.slice(timeStart.indexOf(':') + 1)));
         console.log("second: " + second);
 
-        if (minuteDifference < 0) {
-            minute = 60 + minuteDifference;
-            hour = hourDifference - 1;
-            if (secondDifference < 0) {
+        if (secondDifference < 0) {
                 second = 60 + secondDifference;
-                minute -= 1
+                minuteDifference -= 1;
+        }
+        else {
+            second = secondDifference;
+            if (minuteDifference < 0) {
+                minute = 60 + minuteDifference;
+                hour = hourDifference - 1;
+            } else {
+                minute = minuteDifference;
+                hour = hourDifference;
             }
         }
+        
 
         return (hour * 60 + minute) + " menit " + second + " detik";
     }
