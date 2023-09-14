@@ -54,13 +54,13 @@
         var timeStart = table.rows[rowTarget].cells[cellTarget].innerHTML;
 
         console.log("a: " + a + " start: ", timeStart);
-        var hour = (parseInt(a.slice(0, a.indexOf(':'))) + parseInt(timeStart.slice(0, timeStart.indexOf(':'))))%23;
+        var hour = (parseInt(a.slice(0, a.indexOf(':'))) - parseInt(timeStart.slice(0, timeStart.indexOf(':'))))%24;
         console.log(hour);
         a = a.slice(a.indexOf(':') + 1);
         timeStart = timeStart.slice(timeStart.indexOf(':') + 1);
-        var minute = (parseInt(a.slice(0, a.indexOf(':'))) + parseInt(timeStart.slice(0, timeStart.indexOf(':'))))%60;
+        var minute = (parseInt(a.slice(0, a.indexOf(':'))) - parseInt(timeStart.slice(0, timeStart.indexOf(':'))))%60;
         console.log("minute: " + minute);
-        var second = (parseInt(a.slice(a.indexOf(':') + 1)) + parseInt(timeStart.slice(timeStart.indexOf(':') + 1)))%60;
+        var second = (parseInt(a.slice(a.indexOf(':') + 1)) - parseInt(timeStart.slice(timeStart.indexOf(':') + 1)))%60;
         console.log("second: " + second);
 
         return (hour * 60 + minute) + " menit " + second + " detik";
